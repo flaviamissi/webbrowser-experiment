@@ -1,3 +1,3 @@
 run:
-	@g++ -Wall -g -o main.o main.cpp -lcurl
+	@g++ -Wall -o main.o main.cpp -lcurl
 	@./main.o
