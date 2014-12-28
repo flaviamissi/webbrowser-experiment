@@ -1,5 +1,6 @@
 #include <curl/curl.h>
 #include <iostream>
+#include "converter.cpp"
 
 // libcurl write callback function
 static int writer(char *data, size_t size, size_t nmemb, std::string *writer_data) {
@@ -48,7 +49,7 @@ std::string Request::get(std::string url) {
 
     CURLcode resp = curl_easy_perform(handle);
     if(resp != CURLE_OK)
-        std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(resp) << std::endl;
+        std::cerr << "Request failed: " << curl_easy_strerror(resp) << std::endl;
 
     return data_buffer;
 }
@@ -56,12 +57,15 @@ std::string Request::get(std::string url) {
 int main() {
     curl_global_init(CURL_GLOBAL_ALL);
 
-    Request request;
-    std::string result = request.get("http://flaviamissi.com.br");
-
-    std::cout << "result html is: " << std::endl;
-    std::cout << result << std::endl;
+    //Request request;
+    //std::string result = request.get("http://flaviamissi.com.br");
 
     curl_global_cleanup();
+
+    std::string result = "";
+
+    result = HTMLToANSI(result);
+    std::cout << result << std::endl;
+
     return 0;
 }
