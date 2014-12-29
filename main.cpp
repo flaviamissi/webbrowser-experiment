@@ -54,15 +54,20 @@ std::string Request::get(std::string url) {
     return data_buffer;
 }
 
-int main() {
+int main(int argc, const char* argv[]) {
+    if (argc <= 1) {
+        std::cout << "Wrong number of arguments, make sure you are passing the desired URL to open." << std::endl;
+        return 1;
+    }
+
     curl_global_init(CURL_GLOBAL_ALL);
 
-    //Request request;
-    //std::string result = request.get("http://flaviamissi.com.br");
+    Request request;
+    std::string url = argv[1];
+    std::cout << "Requesting " << url << "..." << std::endl;
+    std::string result = request.get(url);
 
     curl_global_cleanup();
-
-    std::string result = "";
 
     result = HTMLToANSI(result);
     std::cout << result << std::endl;
