@@ -12,10 +12,17 @@ std::map<std::string,std::string> html_tags = {
     {"<meta", "</meta>"},
     {"<body", "</body>"},
     {"<h1", "</h1>"},
+    {"<h2", "</h2>"},
     {"<a", "</a>"},
     {"<p", "</p>"},
+    {"<ul", "</ul>"},
+    {"<li", "</li>"},
     {"<img", "</img>"},
+    {"<svg", "</svg>"},
     {"<div", "</div>"},
+    {"<nav", "</nav>"},
+    {"<header", "</header>"},
+    {"<footer", "</footer>"},
     {"<span", "</span>"},
     {"<strong", "</strong>"},
     {"<em", "</em>"},
@@ -35,12 +42,20 @@ std::map<std::string,std::string> no_contents_map = {
 // HTML tags to ANSI escaping sequences
 //
 std::map<std::string,std::string> conversion_map = {
-    {"<title", "\33\[47m\33\[30m\n"},
+    {"<title", "\33\[37m\n"},
     {"<a", "\33\[34m"},
-    {"<div", "\033\[37m\t\t"},
+    {"<header", ""},
+    {"<footer", ""},
+    {"<div", "\033\[37m\n"},
     {"<span", " "},
+    {"<p", "\n"},
     {"<strong", "\033\[1m"},
     {"<em", "\033\[7m"},
+    {"<h1", ""},
+    {"<h2", ""},
+    {"<ul", ""},
+    {"<li", ""},
+    {"<svg", ""},
     // {"<link", ""},
     // {"<br", ""}
 };
@@ -64,6 +79,26 @@ std::string removeTagsContent(std::string html) {
             html.replace(pos, (close_pos - pos) + 1, "");
         }
     }
+    return html;
+}
+
+std::string improveFormatting(std::string html) {
+    std::size_t pos;
+    std::string token = "  ";
+    while ((pos = html.find(token)) != std::string::npos) {
+        html.replace(pos, token.size(), " ");
+    }
+
+    token = "\n \n";
+    while ((pos = html.find(token)) != std::string::npos) {
+        html.erase(pos, token.size());
+    }
+
+    token = "\n\n ";
+    while ((pos = html.find(token)) != std::string::npos) {
+        html.erase(pos, token.size());
+    }
+
     return html;
 }
 
@@ -101,5 +136,6 @@ std::string HTMLToANSI(std::string html) {
             html.replace(pos, closing_tag.size(), "");
         }
     }
-    return html;
+
+    return improveFormatting(html);
 }
