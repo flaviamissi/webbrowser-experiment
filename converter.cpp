@@ -23,11 +23,17 @@ std::map<std::string,std::string> html_tags = {
     {"<br", ""}
 };
 
+//
+// tags that should have their content removed
+//
 std::map<std::string,std::string> no_contents_map = {
     {"<script", "</script>"},
     {"<style", "</style>"},
 };
 
+//
+// HTML tags to ANSI escaping sequences
+//
 std::map<std::string,std::string> conversion_map = {
     {"<title", "\33\[47m\33\[30m\n"},
     {"<a", "\33\[34m"},
@@ -39,7 +45,11 @@ std::map<std::string,std::string> conversion_map = {
     // {"<br", ""}
 };
 
-std::string removeTagContent(std::string html) {
+//
+// Removes specific tags content and the tags themselves.
+// Uses tags defined in the `no_contents_map`
+//
+std::string removeTagsContent(std::string html) {
     std::map<std::string,std::string>::iterator it;
     std::string opening_tag;
     std::string closing_tag;
@@ -58,8 +68,8 @@ std::string removeTagContent(std::string html) {
 }
 
 //
-// loops through all tags on the document.
-// replaces them with their matching ANSI escape sequence.
+// Loops through all tags on the document.
+// Replaces them with their matching ANSI escape sequence.
 //
 std::string HTMLToANSI(std::string html) {
     std::map<std::string,std::string>::iterator it;
@@ -70,7 +80,7 @@ std::string HTMLToANSI(std::string html) {
     std::string opening_tag;
     std::string closing_tag;
 
-    html = removeTagContent(html);
+    html = removeTagsContent(html);
 
     for(it = html_tags.begin(); it != html_tags.end(); it++) {
         opening_tag = it->first;
