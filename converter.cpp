@@ -6,6 +6,7 @@
 
 std::map<std::string,std::string> html_tags = {
     {"<!DOCTYPE", ""},
+    {"<!doctype", ""},
     {"<html", "</html>"},
     {"<head", "</head>"},
     {"<title", "</title>"},
@@ -13,13 +14,20 @@ std::map<std::string,std::string> html_tags = {
     {"<body", "</body>"},
     {"<h1", "</h1>"},
     {"<h2", "</h2>"},
+    {"<center", "</center>"},
     {"<a", "</a>"},
     {"<p", "</p>"},
+    {"<ol", "</ol>"},
     {"<ul", "</ul>"},
     {"<li", "</li>"},
+    {"<table", "</table>"},
+    {"<td", "</td>"},
+    {"<tr", "</tr>"},
     {"<img", "</img>"},
     {"<svg", "</svg>"},
     {"<div", "</div>"},
+    {"<form", "</form>"},
+    {"<input", ""},
     {"<nav", "</nav>"},
     {"<header", "</header>"},
     {"<footer", "</footer>"},
@@ -48,6 +56,7 @@ std::map<std::string,std::string> conversion_map = {
     {"<footer", ""},
     {"<div", "\033\[37m\n"},
     {"<span", " "},
+    {"<li", " | "},
     {"<p", "\n"},
     {"<strong", "\033\[1m"},
     {"<em", "\033\[7m"},
@@ -56,8 +65,8 @@ std::map<std::string,std::string> conversion_map = {
     {"<ul", ""},
     {"<li", ""},
     {"<svg", ""},
-    // {"<link", ""},
-    // {"<br", ""}
+    {"<link", ""},
+    {"<br", ""}
 };
 
 //
@@ -76,7 +85,7 @@ std::string removeTagsContent(std::string html) {
         closing_tag = it->second;
         while((pos = html.find(opening_tag)) != std::string::npos) {
             close_pos = html.find(closing_tag, pos);
-            html.replace(pos, (close_pos - pos) + 1, "");
+            html.replace(pos, (close_pos - pos) + closing_tag.size(), "");
         }
     }
     return html;
