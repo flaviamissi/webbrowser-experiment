@@ -7,3 +7,11 @@ The current idea is just to show an HTML page content with some terminal formatt
 Although simple, this approach is powerful because doesn't involves any external tools, such HTML, CSS,
 and Javascript rendering. This approach is just simple enough. I've learned about how to use the cURL C++ API,
 and now I'm doing some converting code based on HTML tags, so I'm stretching logic too.
+
+## How to run
+
+Use make:
+
+```shell
+$ make run url=http://google.com
+```
